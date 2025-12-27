@@ -22,7 +22,7 @@ def home():
     return "Benvenuto! Usa /numericalintegralservice/lower/upper per calcolare."
 
 # La rotta richiesta dal PDF: /numericalintegralservice/<lower>/<upper>
-@app.route('/numericalintegralservice/<float:lower>/<float:upper>')
+@app.route('/numericalintegralservice/<lower>/<upper>')
 def integrate_service(lower, upper):
     results = {}
     
