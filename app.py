@@ -4,11 +4,9 @@ import math
 app = Flask(__name__)
 
 def numerical_integration(lower, upper, N):
-    # Calcola la larghezza di ogni rettangolino
     dx = (upper - lower) / N
     total_area = 0.0
     
-    # Somma le aree dei rettangolini
     for i in range(N):
         x = lower + (i * dx)
         # La funzione richiesta è abs(sin(x))
@@ -19,27 +17,26 @@ def numerical_integration(lower, upper, N):
 
 @app.route('/')
 def home():
-    return "Benvenuto! Usa /numericalintegralservice/lower/upper per calcolare."
+    return "Welcome! Use /numericalintegralservice/lower/upper to compute."
 
-# La rotta richiesta dal PDF: /numericalintegralservice/<lower>/<upper>
 @app.route('/numericalintegralservice/<lower>/<upper>')
 def integrate_service(lower, upper):
-    results = {}
+    lower_num = float(lower)
+    upper_num = float(upper)
     
-    # Il PDF chiede di testare questi valori specifici di N
+    results = {}
     n_values = [10, 100, 1000, 10000, 100000, 1000000]
     
     for n in n_values:
-        area = numerical_integration(lower, upper, n)
+        # Usa i numeri convertiti qui
+        area = numerical_integration(lower_num, upper_num, n)
         results[f"N={n}"] = area
         
-    # Restituisce il risultato in formato JSON
     return jsonify({
-        "lower": lower,
-        "upper": upper,
+        "lower": lower_num,
+        "upper": upper_num,
         "results": results
     })
 
 if __name__ == '__main__':
-    # Ascolta su tutte le interfacce (0.0.0.0) porta 5000
     app.run(host='0.0.0.0', port=5000)
