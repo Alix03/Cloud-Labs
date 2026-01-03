@@ -1,0 +1,10 @@
+{
+  "azureFunctions.deploySubpath": ".",
+  "azureFunctions.projectLanguage": "Python",
+  "azureFunctions.projectRuntime": "~4",
+  "python.defaultInterpreterPath": "/Users/aliceboccadifuoco/anaconda3/envs/myenv/bin/python",
+  "azureFunctions.pythonVenv": ".venv",
+  "azureFunctions.scmDoBuildDuringDeployment": true,
+  "debug.internalConsoleOptions": "neverOpen",
+  "azureFunctions.projectLanguageModel": 2
+}

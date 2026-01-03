@@ -8,3 +8,5 @@ class QuickstartUser(HttpUser):
     def hello_world(self):
         # local server
         self.client.get("/numericalintegralservice/0.0/3.14159")
+
+        #point to http://localhost:5000

@@ -8,3 +8,5 @@ class QuickstartUser(HttpUser):
     def hello_world(self):
         # local server
         self.client.get("/numericalintegralservice/0.0/3.14159")
+
+        # Point to Load Balancer's IP of the Scale Set
