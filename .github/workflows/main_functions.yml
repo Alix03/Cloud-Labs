@@ -25,6 +25,6 @@ jobs:
       - name: 'Deploy Azure Functions'
         uses: Azure/functions-action@v1
         with:
-          app-name: 'lab2-functions-alice-byd5hkfaeea9evga'
+          app-name: 'lab2-functions-alice'
           package: './4_function' 
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
