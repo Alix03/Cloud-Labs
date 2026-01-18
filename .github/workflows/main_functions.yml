@@ -19,6 +19,6 @@ jobs:
       - name: 'Deploy Azure Functions'
         uses: Azure/functions-action@v1
         with:
-          app-name: 'IL_NOME_DELLA_TUA_FUNCTION_APP' # Cambialo con quello del portale
-          package: '4_functions' # Assicurati che il nome della cartella sia corretto
+          app-name: 'lab2-functions-alice'
+          package: '4_function' 
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
