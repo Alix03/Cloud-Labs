@@ -28,5 +28,6 @@ jobs:
           app-name: 'lab2-functions-alice' 
           package: './4_function'
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
+          # Diciamo a GitHub di NON provare a cambiare le impostazioni (evita il 405)
+          scm-do-build-during-deployment: false
+          enable-oryx-build: false
