@@ -65,6 +65,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          # Assicurati che questo nome corrisponda esattamente a quello sul portale Azure
-          app-name: 'lab2-3'
-          slot-name: 'Production'
+          app-name: 'lab2-3-afaphqdjcfhba9gm'
+
