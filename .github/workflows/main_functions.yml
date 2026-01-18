@@ -8,10 +8,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
 
@@ -22,20 +18,15 @@ jobs:
 
       - name: 'Install dependencies'
         run: |
-          cd 4_function
+          cd 4_function 
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D3F40D434C774005B6DBDD4E2DD961C1 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FB081BA779914157A5A5CA5CFFA74AA8 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_016E6A8B38B548DCBC05344617179A9F }}
 
       - name: 'Deploy Azure Functions'
         uses: Azure/functions-action@v1
         with:
-          app-name: 'lab2-functions-alice'
+          app-name: 'lab2-functions-alice' 
           package: './4_function'
-          # Rimosso il publish-profile: usiamo il login fatto sopra
+          publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
