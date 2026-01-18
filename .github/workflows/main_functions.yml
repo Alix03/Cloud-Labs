@@ -27,5 +27,5 @@ jobs:
         with:
           app-name: 'lab2-functions-alice-byd5hkfaeea9evga' 
           # INDICA LA CARTELLA DOVE HAI UNITO IL CODICE
-          package: './4_functions' 
+          package: './4_function' 
           publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
