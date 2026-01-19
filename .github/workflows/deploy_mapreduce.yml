@@ -38,6 +38,6 @@ jobs:
       - name: 'Deploy via Azure CLI'
         run: |
           az functionapp deployment source config-zip \
-            --name lab2-functions-alice \
+            --name lab2-functions-alice-mr \
             --resource-group lab2-AliceB \
             --src deploy_mr.zip
