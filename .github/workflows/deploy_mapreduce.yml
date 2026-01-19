@@ -1,42 +1,43 @@
-name: Deploy MapReduce Point 5
+name: Deploy Part 5 - MapReduce CLI Method
 
 on:
   push:
-    branches:
-      - main
+    branches: ["main"]
     paths:
       - '5_mapreduce/**'
-
-env:
-  AZURE_FUNCTIONAPP_NAME: 'lab2-functions-alice'
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '5_mapreduce'
-  PYTHON_VERSION: '3.9'                         
+  workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-    - name: 'Checkout GitHub Action'
-      uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Setup Python ${{ env.PYTHON_VERSION }}
-      uses: actions/setup-python@v5
-      with:
-        python-version: ${{ env.PYTHON_VERSION }}
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    - name: 'Install dependencies'
-      shell: bash
-      run: |
-        pushd './${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}'
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt --target=".python_packages"
-        popd
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D3F40D434C774005B6DBDD4E2DD961C1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FB081BA779914157A5A5CA5CFFA74AA8 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_016E6A8B38B548DCBC05344617179A9F }}
 
-    - name: 'Run Azure Functions Action'
-      uses: Azure/functions-action@v1
-      with:
-        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
-        scm-do-build-during-deployment: false
-        enable-oryx-build: false
+      - name: 'Install dependencies and Zip'
+        run: |
+          cd 5_mapreduce
+          python -m pip install --target="./.python_packages/lib/site-packages" -r requirements.txt
+          zip -r ../deploy_mr.zip .
+
+      - name: 'Deploy via Azure CLI'
+        run: |
+          az functionapp deployment source config-zip \
+            --name lab2-functions-alice \
+            --resource-group lab2-AliceB \
+            --src deploy_mr.zip
