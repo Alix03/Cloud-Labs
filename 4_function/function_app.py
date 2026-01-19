@@ -1,42 +1,31 @@
 import azure.functions as func
 import math
-import time
+import json
 
-app = func.FunctionApp()
+app = func.FunctionApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-def numerical_integral(a, b, n):
-    dx = (b - a) / n
-    total = 0.0
-    x = a
-    for _ in range(n):
-        total += abs(math.sin(x)) * dx
-        x += dx
-    return total
-
-@app.function_name(name="numericalintegral")
-@app.route(route="numericalintegral", methods=["GET"], auth_level=func.AuthLevel.ANONYMOUS)
-def numericalintegral(req: func.HttpRequest) -> func.HttpResponse:
+@app.route(route="calculate_integral", methods=["GET"])
+def calculate_integral(req: func.HttpRequest) -> func.HttpResponse:
     try:
-        a = float(req.params.get("a"))
-        b = float(req.params.get("b"))
-    except:
+        # Recupero parametri dalla URL
+        a = float(req.params.get('a'))
+        b = float(req.params.get('b'))
+        n = int(req.params.get('n', 10000)) # Default a 10.000 se manca
+
+        # Logica del calcolo dell'integrale (|sin(x)|)
+        h = (b - a) / n
+        def f(x): return abs(math.sin(x))
+        
+        # Regola del trapezio
+        result = 0.5 * (f(a) + f(b))
+        for i in range(1, n):
+            result += f(a + i * h)
+        result *= h
+
         return func.HttpResponse(
-            "Missing or invalid parameters a and b",
-            status_code=400
+            body=json.dumps({"result": result, "n": n}),
+            mimetype="application/json",
+            status_code=200
         )
-
-    results = {}
-    for n in [10, 100, 1000, 10000]:
-        start = time.time()
-        val = numerical_integral(a, b, n)
-        elapsed = time.time() - start
-        results[n] = {
-            "value": val,
-            "time": elapsed
-        }
-
-    return func.HttpResponse(
-        body=str(results),
-        mimetype="application/json",
-        status_code=200
-    )
+    except (TypeError, ValueError):
+        return func.HttpResponse("Pass parameters a, b and n", status_code=400)
