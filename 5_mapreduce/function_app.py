@@ -160,25 +160,7 @@ def master_orchestrator(context: df.DurableOrchestrationContext):
 @app.route(route="mapreduce")
 @app.durable_client_input(client_name="client")
 async def http_start(req: func.HttpRequest, client):
-    """
-    HTTP trigger to start the MapReduce orchestration
-    """
-    # For testing: use fake data or parse from request
-    try:
-        req_body = req.get_json()
-        input_lines = req_body.get("lines", [])
-    except:
-        # Default test data
-        input_lines = [
-            {"key": 1, "value": "hello world"},
-            {"key": 2, "value": "hello azure functions"},
-            {"key": 3, "value": "world of durable functions"}
-        ]
-    
-    # Start the orchestration
-    instance_id = await client.start_new("master_orchestrator", client_input=input_lines)
-    
-    logging.info(f"Started orchestration with ID = '{instance_id}'")
-    
-    # Return management URLs
+    # La consegna dice che l'orchestratore deve chiamare GetInputDataFn.
+    # Quindi non passiamo righe di testo qui, passiamo solo la configurazione dei file (opzionale).
+    instance_id = await client.start_new("master_orchestrator", client_input=None)
     return client.create_check_status_response(req, instance_id)
