@@ -7,7 +7,7 @@ from azure.storage.blob import BlobServiceClient
 
 app = df.DFApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
-# ============== ACTIVITY FUNCTIONS ==============
+# ACTIVITY FUNCTIONS
 
 @app.activity_trigger(input_name="config")
 def get_input_data_activity(config: dict):
@@ -108,7 +108,7 @@ def reducer_activity(word_data: dict):
     return {"key": word, "value": count}
 
 
-# ============== ORCHESTRATOR ==============
+# ORCHESTRATOR
 
 @app.orchestration_trigger(context_name="context")
 def master_orchestrator(context: df.DurableOrchestrationContext):
@@ -132,7 +132,7 @@ def master_orchestrator(context: df.DurableOrchestrationContext):
         task = context.call_activity("mapper_activity", line)
         map_tasks.append(task)
     
-    # Wait for all mappers to complete (fan-in)
+    # Wait for all mappers to complete
     map_outputs = yield context.task_all(map_tasks)
     
     # Phase 2: SHUFFLE
@@ -155,7 +155,7 @@ def master_orchestrator(context: df.DurableOrchestrationContext):
     return reduce_outputs
 
 
-# ============== HTTP CLIENT TRIGGER ==============
+# HTTP CLIENT TRIGGER
 
 @app.route(route="mapreduce")
 @app.durable_client_input(client_name="client")
