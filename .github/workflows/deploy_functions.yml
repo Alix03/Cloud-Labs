@@ -1,4 +1,4 @@
-name: Deploy Part 4 - CLI Method
+name: Deploy Part 4 - Local Build Method
 
 on:
   push:
@@ -8,13 +8,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # QUESTO BLOCCO È FONDAMENTALE PER IL LOGIN OIDC
     permissions:
       id-token: write
       contents: read
 
     steps:
       - uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
       - name: Login to Azure
         uses: azure/login@v2
@@ -23,12 +27,17 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FB081BA779914157A5A5CA5CFFA74AA8 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_016E6A8B38B548DCBC05344617179A9F }}
 
-      - name: 'Deploy via Azure CLI'
+      - name: 'Install dependencies and Zip'
         run: |
           cd 4_function
-          zip -r deploy.zip .
+          # Installiamo le librerie dentro una cartella locale per includerle nello zip
+          python -m pip install --target="./.python_packages/lib/site-packages" -r requirements.txt
+          zip -r ../deploy.zip .
+
+      - name: 'Deploy via Azure CLI'
+        run: |
+          # Inviamo il pacchetto senza i flag che causano l'errore
           az functionapp deployment source config-zip \
             --name lab2-functions-alice \
             --resource-group lab2-AliceB \
-            --src deploy.zip \
-            --build-remote true
+            --src deploy.zip
