@@ -8,24 +8,25 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    # QUESTO BLOCCO È FONDAMENTALE PER IL LOGIN OIDC
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          # Usa i segreti della Parte 3 (Client ID, Tenant, Subscription)
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D3F40D434C774005B6DBDD4E2DD961C1 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FB081BA779914157A5A5CA5CFFA74AA8 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_016E6A8B38B548DCBC05344617179A9F }}
 
       - name: 'Deploy via Azure CLI'
         run: |
-          # 1. Entriamo nella cartella
           cd 4_function
-          # 2. Creiamo lo ZIP dei file (non della cartella)
           zip -r deploy.zip .
-          # 3. Lo inviamo ad Azure forzando il build remoto
           az functionapp deployment source config-zip \
             --name lab2-functions-alice \
             --resource-group lab2-AliceB \
