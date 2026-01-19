@@ -8,7 +8,6 @@ from azure.storage.blob import BlobServiceClient
 app = df.DFApp(http_auth_level=func.AuthLevel.ANONYMOUS)
 
 # ACTIVITY FUNCTIONS
-
 @app.activity_trigger(input_name="config")
 def get_input_data_activity(config: dict):
     """
