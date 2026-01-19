@@ -40,4 +40,5 @@ jobs:
           az functionapp deployment source config-zip \
             --name lab2-functions-alice-mr-final \
             --resource-group lab2-AliceB \
-            --src deploy_mr.zip
+            --src deploy_mr.zip \
+            --build-remote true
