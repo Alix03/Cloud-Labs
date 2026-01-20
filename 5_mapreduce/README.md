@@ -14,7 +14,9 @@ The system consists of several specialized functions coordinated by an orchestra
 
 ## Storage Account Configuration
 Account Name: lab2aliceb953a (using the account of Alice Boccadifuoco due to credit constraints).
+
 Container: mapreduce-input (the specific container name required by the source code).
+
 Input Files: Uploaded mrinput-1.txt, mrinput-2.txt, mrinput-3.txt, and mrinput-4.txt containing the source text.
 
 ## How to Run
@@ -29,7 +31,9 @@ curl -X POST https://lab2-functions-alice-mr-final.azurewebsites.net/api/mapredu
 
 **Monitoring**
 Copy the statusQueryGetUri from the response.
+
 Monitor the runtimeStatus until it reaches Completed.
+
 The final word count results will be visible in the output field, sorted by frequency.
 
 ## Addresse of mapreduce durable function
