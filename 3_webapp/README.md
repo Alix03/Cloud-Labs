@@ -21,7 +21,7 @@ This section demonstrates how to deploy and scale the numerical integration micr
      ```
    - From the `3_webapp/` folder, run:
      ```
-     locust -f locustfile.py --host [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/3ee0c548-1415-4950-b915-07235434a007" />
+     locust -f locustfile.py --host [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)
 
      ```
    - Open [http://localhost:8089](http://localhost:8089) in your browser, set the number of users and spawn rate, and start the test.
