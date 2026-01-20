@@ -8,17 +8,11 @@ This section demonstrates how to deploy and scale the numerical integration micr
 
    - Go to the `3_webapp/` folder (contains `app.py`, `requirements.txt`, and `locustfile.py`).
    - Deploy the app to Azure Web App using VS Code, Azure CLI, or the Azure Portal.
-   - Reference: [Azure Python Web App Quickstart](https://learn.microsoft.com/en-us/azure/app-service/quickstart-python)
-   - After deployment, your app will be available at:
-     - https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net
+   - After deployment, the app will be available at:
+     - [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/e6136635-359f-4fde-a5f2-492e5750fe90" />
+
 
 2. **Configure Autoscaling**
-
-   - In the Azure Portal, go to your Web App → "Scale out (App Service plan)" or "Autoscale".
-   - Set the rule:
-     - Start with 1 instance, scale up to 3.
-     - Metric: CPU Percentage > 50%
-     - Time window: 1 minute.
 
 3. **Load Testing with Locust**
 
@@ -28,25 +22,19 @@ This section demonstrates how to deploy and scale the numerical integration micr
      ```
    - From the `3_webapp/` folder, run:
      ```
-     locust -f locustfile.py --host https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net
+     locust -f locustfile.py --host [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/3ee0c548-1415-4950-b915-07235434a007" />
+
      ```
    - Open [http://localhost:8089](http://localhost:8089) in your browser, set the number of users and spawn rate, and start the test.
-   - Let Locust run for at least 3 minutes. Save the output/report for your deliverable.
 
 4. **Monitor Scaling**
 
-   - In the Azure Portal, use App Insights and the "Scale out" section to observe:
-     - Number of instances (should increase as load grows)
-     - CPU usage
-     - Response times
-
 5. **Stop the Web App**
-   - After testing, stop (but do not delete) the web app from the Azure Portal.
 
 ## Notes
 
-- The microservice code is the same as in point 1.
 - The load test URL for Locust is:
-  - https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net
+  - [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/f3b27886-09b3-4907-a0cf-a08d4082c311" />
 - Autoscaling is based on CPU usage and will automatically increase the number of instances as needed.
-- You can monitor all metrics and scaling events in the Azure Portal.
+- Tested with the values: https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net/numericalintegralservice/0/3.14159<img width="468" height="44" alt="image" src="https://github.com/user-attachments/assets/f98f0d6c-3afc-48e8-a10c-caeecc49501e" />
+
