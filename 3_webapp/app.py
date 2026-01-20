@@ -9,7 +9,6 @@ def numerical_integration(lower, upper, N):
     
     for i in range(N):
         x = lower + (i * dx)
-        # La funzione richiesta è abs(sin(x))
         y = abs(math.sin(x))
         total_area += y * dx
         
@@ -28,7 +27,6 @@ def integrate_service(lower, upper):
     n_values = [10, 100, 1000, 10000, 100000, 1000000]
     
     for n in n_values:
-        # Usa i numeri convertiti qui
         area = numerical_integration(lower_num, upper_num, n)
         results[f"N={n}"] = area
         
