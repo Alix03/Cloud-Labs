@@ -30,13 +30,11 @@ jobs:
       - name: 'Install dependencies and Zip'
         run: |
           cd 4_function
-          # Installiamo le librerie dentro una cartella locale per includerle nello zip
           python -m pip install --target="./.python_packages/lib/site-packages" -r requirements.txt
           zip -r ../deploy.zip .
 
       - name: 'Deploy via Azure CLI'
         run: |
-          # Inviamo il pacchetto senza i flag che causano l'errore
           az functionapp deployment source config-zip \
             --name lab2-functions-alice \
             --resource-group lab2-AliceB \
