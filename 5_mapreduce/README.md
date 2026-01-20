@@ -25,6 +25,7 @@ The function is deployed via GitHub Actions using the Azure CLI method.
 
 **Triggering the Orchestration**
 Invoke the HTTP trigger to start the process:
+
 curl -X POST https://lab2-functions-alice-mr-final.azurewebsites.net/api/mapreduce \
   -H "Content-Type: application/json" \
   -d "{}"
