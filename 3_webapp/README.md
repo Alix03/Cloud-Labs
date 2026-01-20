@@ -9,8 +9,7 @@ This section demonstrates how to deploy and scale the numerical integration micr
    - Go to the `3_webapp/` folder (contains `app.py`, `requirements.txt`, and `locustfile.py`).
    - Deploy the app to Azure Web App using VS Code, Azure CLI, or the Azure Portal.
    - After deployment, the app will be available at:
-     - [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/e6136635-359f-4fde-a5f2-492e5750fe90" />
-
+     - [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)
 
 2. **Configure Autoscaling**
 
@@ -36,5 +35,4 @@ This section demonstrates how to deploy and scale the numerical integration micr
 - The load test URL for Locust is:
   - [https://lab2-integral-h6ayh8afgab4gaa3.italynorth-01.azurewebsites.net](https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net)<img width="468" height="15" alt="image" src="https://github.com/user-attachments/assets/f3b27886-09b3-4907-a0cf-a08d4082c311" />
 - Autoscaling is based on CPU usage and will automatically increase the number of instances as needed.
-- Tested with the values: https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net/numericalintegralservice/0/3.14159<img width="468" height="44" alt="image" src="https://github.com/user-attachments/assets/f98f0d6c-3afc-48e8-a10c-caeecc49501e" />
-
+- Tested with the values: https://lab2-3-afaphqdjcfhba9gm.italynorth-01.azurewebsites.net/numericalintegralservice/0/3.14159
