@@ -15,7 +15,6 @@ def get_input_data_activity(config: dict):
     GetInputDataFn: Reads all files from blob storage and returns [(line_num, line_text), ...]
     """
     try:
-        # Get connection string from environment
         connection_string = os.environ.get("STORAGE_CONNECTION_STRING")
         if not connection_string:
             raise ValueError("STORAGE_CONNECTION_STRING not configured")
@@ -23,21 +22,18 @@ def get_input_data_activity(config: dict):
         container_name = config.get("container", "mapreduce-input")
         file_names = config.get("files", ["mrinput-1.txt", "mrinput-2.txt", "mrinput-3.txt", "mrinput-4.txt"])
         
-        # Connect to blob storage
         blob_service_client = BlobServiceClient.from_connection_string(connection_string)
         container_client = blob_service_client.get_container_client(container_name)
         
         lines = []
         line_num = 0
         
-        # Read each file
         for file_name in file_names:
             logging.info(f"Reading file: {file_name}")
             blob_client = container_client.get_blob_client(file_name)
             blob_data = blob_client.download_blob().readall()
             content = blob_data.decode('utf-8')
             
-            # Split into lines and add to result
             for line in content.splitlines():
                 if line.strip():  # Skip empty lines
                     lines.append({"key": line_num, "value": line})
@@ -58,11 +54,9 @@ def mapper_activity(line: dict):
     line_num = line.get("key")
     line_text = line.get("value", "")
     
-    # Tokenize and create (word, 1) pairs
     words = line_text.lower().split()
     result = []
     for word in words:
-        # Remove punctuation
         word = ''.join(c for c in word if c.isalnum())
         if word:
             result.append({"key": word, "value": 1})
@@ -79,7 +73,6 @@ def shuffler_activity(map_outputs: list):
     """
     shuffle_dict = {}
     
-    # Flatten all map outputs
     for mapper_result in map_outputs:
         for item in mapper_result:
             word = item["key"]
@@ -88,7 +81,6 @@ def shuffler_activity(map_outputs: list):
                 shuffle_dict[word] = []
             shuffle_dict[word].append(value)
     
-    # Convert to list format
     result = [{"key": word, "value": values} for word, values in shuffle_dict.items()]
     
     logging.info(f"Shuffler: grouped {len(result)} unique words")
@@ -138,16 +130,14 @@ def master_orchestrator(context: df.DurableOrchestrationContext):
     # Phase 2: SHUFFLE
     shuffle_output = yield context.call_activity("shuffler_activity", map_outputs)
     
-    # Phase 3: REDUCE - run reducers in parallel (fan-out)
+    # Phase 3: REDUCE 
     reduce_tasks = []
     for word_data in shuffle_output:
         task = context.call_activity("reducer_activity", word_data)
         reduce_tasks.append(task)
     
-    # Wait for all reducers to complete (fan-in)
     reduce_outputs = yield context.task_all(reduce_tasks)
     
-    # Sort by count (descending) for nice output
     reduce_outputs.sort(key=lambda x: x["value"], reverse=True)
     
     logging.info(f"Orchestrator: completed. Total unique words: {len(reduce_outputs)}")
